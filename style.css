@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Skyline Tribute — estilos base
+   Tailwind cubre el layout general; aquí van el marco del canvas,
+   el marcador y las capas de interfaz.
+   ========================================================================== */
+
+:root {
+  /* Relación de aspecto del lienzo (debe coincidir con WIDTH/HEIGHT en game.js) */
+  --game-aspect: 3 / 4;
+  --game-radius: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Evita el scroll elástico al tocar la pantalla en móvil */
+  overscroll-behavior: none;
+}
+
+/* --------------------------------------------------------------------------
+   Marco del juego
+   -------------------------------------------------------------------------- */
+
+.game-shell {
+  position: relative;
+  aspect-ratio: var(--game-aspect);
+  max-height: 80vh;
+  margin-inline: auto;
+  border-radius: var(--game-radius);
+  overflow: hidden;
+  background: #0f172a;
+  border: 1px solid rgb(51 65 85);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+}
+
+/* El canvas llena el marco; su resolución interna la controla game.js */
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation; /* clic/tap inmediato, sin zoom por doble toque */
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Marcador (HUD)
+   -------------------------------------------------------------------------- */
+
+.scoreboard {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  pointer-events: none; /* no bloquea clics dirigidos al canvas */
+}
+
+.score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 4.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgb(15 23 42 / 0.65);
+  border: 1px solid rgb(71 85 105 / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.score-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(148 163 184);
+}
+
+.score-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: rgb(241 245 249);
+}
+
+/* --------------------------------------------------------------------------
+   Capas de interfaz (inicio / game over)
+   -------------------------------------------------------------------------- */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  /* Panel algo por debajo del centro: así no tapa al avión */
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem 1.5rem 22%;
+  /* Atenuación suave: la escena sigue viéndose detrás del panel */
+  background: rgb(2 6 23 / 0.4);
+  backdrop-filter: blur(2px);
+  pointer-events: none; /* el clic siempre llega al canvas */
+  animation: overlay-in 180ms ease-out;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+/* El panel aporta el contraste del texto, no el fondo de la capa */
+.overlay-panel {
+  max-width: 22rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  background: rgb(2 6 23 / 0.82);
+  border: 1px solid rgb(71 85 105 / 0.6);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.7);
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.kbd {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+  background: rgb(30 41 59);
+  border: 1px solid rgb(71 85 105);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8em;
+}
+
+/* --------------------------------------------------------------------------
+   Ajustes responsivos
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .game-shell {
+    max-height: 70vh;
+    border-radius: 0.75rem;
+  }
+
+  .score-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Respeta la preferencia de menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
+}

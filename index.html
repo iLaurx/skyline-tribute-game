@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Skyline Tribute</title>
+
+  <!-- Tailwind CSS (CDN). Para producción conviene compilar Tailwind localmente. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100 antialiased">
+
+  <main class="min-h-screen flex flex-col items-center justify-center gap-6 px-4 py-8">
+
+    <!-- Encabezado -->
+    <header class="text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Skyline Tribute</h1>
+      <p class="mt-1 text-sm text-slate-400">Espacio o clic para volar</p>
+    </header>
+
+    <!-- Contenedor del juego: el canvas se escala dentro de este marco -->
+    <div id="game-shell" class="game-shell w-full max-w-2xl">
+
+      <!-- Marcador (HUD) superpuesto al canvas -->
+      <div class="scoreboard">
+        <div class="score-card">
+          <span class="score-label">Puntos</span>
+          <span id="score" class="score-value">0</span>
+        </div>
+        <div class="score-card">
+          <span class="score-label">Récord</span>
+          <span id="best" class="score-value">0</span>
+        </div>
+      </div>
+
+      <!-- Lienzo del juego. La resolución interna la fija game.js. -->
+      <canvas id="game" class="game-canvas" width="480" height="640" aria-label="Área de juego"></canvas>
+
+      <!-- Capas de interfaz: se muestran/ocultan desde game.js -->
+      <div id="overlay-start" class="overlay">
+        <div class="overlay-panel">
+          <h2 class="text-2xl font-bold">¿Listo?</h2>
+          <p class="mt-2 text-sm text-slate-300">
+            Pulsa <kbd class="kbd">Espacio</kbd> o toca la pantalla para empezar.
+          </p>
+        </div>
+      </div>
+
+      <div id="overlay-over" class="overlay hidden">
+        <div class="overlay-panel">
+          <h2 class="text-3xl font-extrabold text-rose-400">Game Over</h2>
+          <p class="mt-3 text-sm text-slate-300">
+            Puntuación: <span id="final-score" class="font-bold text-slate-100">0</span>
+          </p>
+          <p id="new-record" class="mt-1 text-sm font-semibold text-amber-300 hidden">¡Nuevo récord!</p>
+          <p class="mt-4 text-sm text-slate-300">
+            Pulsa cualquier tecla o toca para reiniciar.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Controles accesibles (también útiles en móvil) -->
+    <footer class="flex flex-wrap items-center justify-center gap-3">
+      <button id="btn-restart" type="button"
+              class="rounded-lg bg-sky-500 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-sky-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300">
+        Reiniciar
+      </button>
+      <button id="btn-pause" type="button"
+              class="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500">
+        Pausa
+      </button>
+    </footer>
+
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
