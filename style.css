@@ -193,6 +193,221 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+   HUD: íconos y modales (fuera del canvas)
+   -------------------------------------------------------------------------- */
+
+.game-header {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+  align-items: start;
+  gap: 0.75rem;
+  width: min(100%, 32rem);
+}
+
+.game-header-copy {
+  text-align: center;
+}
+
+.hud-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(71 85 105 / 0.7);
+  background: rgb(15 23 42 / 0.85);
+  color: rgb(203 213 225);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hud-icon-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.hud-icon-btn:hover,
+.hud-icon-btn:focus-visible {
+  color: rgb(248 250 252);
+  border-color: rgb(125 211 252 / 0.7);
+  background: rgb(15 23 42);
+}
+
+.hud-icon-btn:focus {
+  outline: none;
+}
+
+.hud-icon-btn:focus-visible {
+  box-shadow: 0 0 0 2px rgb(125 211 252 / 0.55);
+}
+
+.hud-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.hud-modal.hidden {
+  display: none;
+}
+
+.hud-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(2 6 23 / 0.72);
+}
+
+.hud-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 20rem);
+  padding: 1.25rem 1.35rem 1.15rem;
+  border-radius: 1rem;
+  text-align: center;
+  background: rgb(2 6 23 / 0.94);
+  border: 1px solid rgb(71 85 105 / 0.6);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.7);
+}
+
+.hud-modal-panel-wide {
+  width: min(100%, 22rem);
+}
+
+.hud-modal-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.45rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgb(148 163 184);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hud-modal-close:hover,
+.hud-modal-close:focus-visible {
+  color: rgb(248 250 252);
+}
+
+.hud-modal-title {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgb(241 245 249);
+}
+
+.hud-modal-copy {
+  margin: 0.65rem 0 0;
+  font-size: 0.55rem;
+  line-height: 1.7;
+  color: rgb(148 163 184);
+}
+
+.hud-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.hud-user-form input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgb(71 85 105);
+  background: rgb(15 23 42);
+  color: rgb(241 245 249);
+  font-family: inherit;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+.hud-user-form input:focus {
+  outline: none;
+  border-color: rgb(56 189 248);
+}
+
+.hud-modal-submit {
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  background: rgb(14 165 233);
+  color: rgb(15 23 42);
+  font-family: inherit;
+  font-size: 0.55rem;
+  cursor: pointer;
+}
+
+.hud-modal-submit:hover,
+.hud-modal-submit:focus-visible {
+  background: rgb(56 189 248);
+}
+
+.hud-modal-status {
+  min-height: 1.1rem;
+  margin: 0.55rem 0 0;
+  font-size: 0.5rem;
+  line-height: 1.6;
+  color: rgb(251 191 36);
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.35rem 0.45rem;
+  border-radius: 0.45rem;
+  background: rgb(15 23 42 / 0.7);
+  border: 1px solid rgb(51 65 85 / 0.8);
+}
+
+.leaderboard-rank {
+  font-size: 0.5rem;
+  color: rgb(125 211 252);
+}
+
+.leaderboard-name {
+  font-size: 0.5rem;
+  line-height: 1.5;
+  color: rgb(226 232 240);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-score {
+  font-size: 0.55rem;
+  color: rgb(253 224 71);
+}
+
+.leaderboard-empty {
+  margin: 0;
+  font-size: 0.55rem;
+  line-height: 1.7;
+  color: rgb(148 163 184);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
    Ajustes responsivos
    -------------------------------------------------------------------------- */
 

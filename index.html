@@ -29,10 +29,23 @@
 
   <main class="min-h-screen flex flex-col items-center justify-center gap-6 px-4 py-8">
 
-    <!-- Encabezado -->
-    <header class="text-center">
-      <h1 class="text-xl sm:text-2xl leading-relaxed">Skyline Tribute</h1>
-      <p class="mt-2 text-[10px] sm:text-xs text-slate-400 leading-relaxed">Espacio, flecha arriba o toca para volar</p>
+    <!-- Encabezado: íconos fuera del canvas para no interceptar el vuelo -->
+    <header class="game-header">
+      <button id="btn-user" type="button" class="hud-icon-btn" aria-label="Nombre de jugador" title="Nombre">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.25" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M5.5 19.2c.8-3.4 3.3-5.2 6.5-5.2s5.7 1.8 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="game-header-copy">
+        <h1 class="text-xl sm:text-2xl leading-relaxed">Skyline Tribute</h1>
+        <p class="mt-2 text-[10px] sm:text-xs text-slate-400 leading-relaxed">Espacio, flecha arriba o toca para volar</p>
+      </div>
+      <button id="btn-stats" type="button" class="hud-icon-btn" aria-label="Clasificación global" title="Top 10">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 19V11M12 19V7M16 19v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
     </header>
 
     <!-- Contenedor del juego: el canvas se escala dentro de este marco -->
@@ -95,6 +108,33 @@
 
   </main>
 
+  <!-- Modales HUD: encima de la página, no del lienzo de juego -->
+  <div id="modal-user" class="hud-modal hidden" role="dialog" aria-labelledby="modal-user-title" aria-modal="true">
+    <div class="hud-modal-backdrop" data-close-modal></div>
+    <div class="hud-modal-panel">
+      <button type="button" class="hud-modal-close" data-close-modal aria-label="Cerrar">×</button>
+      <h2 id="modal-user-title" class="hud-modal-title">Tu nombre</h2>
+      <p class="hud-modal-copy">Se usará en la clasificación global.</p>
+      <form id="form-user" class="hud-user-form">
+        <input id="input-username" name="username" type="text" maxlength="16" autocomplete="nickname" placeholder="Jugador" />
+        <button type="submit" class="hud-modal-submit">Guardar</button>
+      </form>
+      <p id="user-save-status" class="hud-modal-status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <div id="modal-stats" class="hud-modal hidden" role="dialog" aria-labelledby="modal-stats-title" aria-modal="true">
+    <div class="hud-modal-backdrop" data-close-modal></div>
+    <div class="hud-modal-panel hud-modal-panel-wide">
+      <button type="button" class="hud-modal-close" data-close-modal aria-label="Cerrar">×</button>
+      <h2 id="modal-stats-title" class="hud-modal-title">Top 10</h2>
+      <div id="leaderboard-list" class="leaderboard-list">
+        <p class="leaderboard-empty">Cargando...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="leaderboard.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
