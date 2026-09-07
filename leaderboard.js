@@ -45,6 +45,8 @@
     });
 
     if (!response.ok) {
+      const detail = await response.text().catch(() => '');
+      console.warn('Leaderboard save failed', response.status, detail);
       throw new Error('No se pudo guardar la puntuación');
     }
   }

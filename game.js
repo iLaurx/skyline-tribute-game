@@ -1064,6 +1064,7 @@
     best: document.getElementById('best'),
     finalScore: document.getElementById('final-score'),
     newRecord: document.getElementById('new-record'),
+    rankHint: document.getElementById('rank-hint'),
     overlayStart: document.getElementById('overlay-start'),
     overlayOver: document.getElementById('overlay-over'),
     btnRestart: document.getElementById('btn-restart'),
@@ -1082,6 +1083,11 @@
       this.overlayOver.classList.remove('hidden');
       this.finalScore.textContent = String(Score.current);
       this.newRecord.classList.toggle('hidden', !Score.isNewRecord);
+      let named = false;
+      try {
+        named = Boolean((localStorage.getItem('player_username') || '').trim());
+      } catch { /* ignore */ }
+      this.rankHint.classList.toggle('hidden', named || Score.current <= 0);
     },
 
     hideAll() {
