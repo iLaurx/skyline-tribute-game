@@ -1308,6 +1308,23 @@
 
       Score.commit();
       UI.showGameOver();
+      this.submitScoreSilent();
+    },
+
+    /** Envía la puntuación al ranking global sin bloquear la UI. */
+    submitScoreSilent() {
+      if (Score.current <= 0) return;
+      if (typeof Leaderboard === 'undefined' || typeof Leaderboard.saveScore !== 'function') return;
+
+      let username = '';
+      try {
+        username = (localStorage.getItem('player_username') || '').trim();
+      } catch {
+        return;
+      }
+      if (!username) return;
+
+      Leaderboard.saveScore(username, Score.current).catch(() => { /* silencioso */ });
     },
 
     /** Reinicia y arranca de inmediato (pantalla de Game Over). */
@@ -1435,6 +1452,16 @@
       // --- Teclado ---
       window.addEventListener('keydown', (event) => {
         if (event.repeat) return;
+
+        if (event.defaultPrevented) return;
+
+        const typing = event.target.closest('input, textarea');
+        const modalOpen = typeof Leaderboard !== 'undefined'
+          && typeof Leaderboard.isModalOpen === 'function'
+          && Leaderboard.isModalOpen();
+
+        // El nombre y los modales HUD no deben disparar salto, pausa o reinicio
+        if (typing || modalOpen) return;
 
         // Cualquier tecla cuenta como gesto: desbloquea audio
         AudioHub.unlock();
